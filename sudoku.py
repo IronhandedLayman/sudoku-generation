@@ -1,5 +1,17 @@
 import random
 
+# TODO:
+# 1. How do I define an alphabet for allowed entries in cells?
+# 2. What are the most basic restrictions for sudoku like puzzles? (get more general)
+# 3. Automatically solving a puzzle brute force
+# 4. Automatically designing a puzzle that has exactly one solution.
+# 5. Tailoring a puzzle so that it can solve with only given strategies
+# 6. Speed up puzzle generation using all cores of CPU
+# 7. Speed up puzzle generation using all cores of GPU
+# 8. Come up with more interesting puzzle restrictions.
+# 9. Develop a way to generate strategies automatically (ML needed for this?)
+
+
 class BasicSudoku:
     def __init__(self, sx=3, sy=3, bx=3, by=3):
         self.sx=sx #size of each box in columns
@@ -10,6 +22,11 @@ class BasicSudoku:
         self.dy=sy*by #total number of rows
         self.givens=[[None for _ in range(self.dx)] for _ in range(self.dy)] #clean slate set of givens
         self.curstate=[[None for _ in range(self.dx)] for _ in range(self.dy)] #clean slate set of current solved position
+        self.notSameAs = [[[] for _ in range(self.dx)] for _ in range(self.dy)] #restrictions of squares forced to have different values
+
+        self.setLimits()
+
+    def cleanProblem(self): 
 
 
     def printProblem(self):
@@ -41,6 +58,13 @@ class BasicSudoku:
                 ans[r]="|"+("|".join(groups))+"|"
         return ans
                 
+    def setLimits(self):
+        for y in range(len(self.givens)):
+            for x in range(len(self.givens[y])):
+                fullListRestrict = []
+                #restrict rows
+                #restrict columns
+                #restrict boxes
 
     def totalRandomizeGivens(self):
         random.seed()
@@ -49,3 +73,5 @@ class BasicSudoku:
                 self.givens[y][x] = random.randrange(0,self.sx*self.sy+1)
                 if self.givens[y][x]==0:
                     self.givens[y][x]=None
+
+
